@@ -23,6 +23,9 @@ search_keyword_gs = google_ads['Search Keyword'].unique() #consists of rubbish a
 currency_gs = google_ads['Currency'].unique() #no use since only one variable
 country_gs = google_ads['Country'].unique() #no use since only one variable
 keyword_type_gs = google_ads['Keyword type'].unique()
+payment_gs = google_ads['Payment ($)'].unique()
+payment_date_gs = google_ads['Payment Date'].unique()
+week_gs = google_ads['Week'].unique()
 
 # Listing Site
 # checking columns
@@ -35,12 +38,10 @@ product_name_ls = listing_site['Product Name'].unique() #no use since only one v
 categories_ls = listing_site['Categories'].unique()
 channel_ls = listing_site['Channel'].unique()
 location_ls = listing_site['Location'].unique() #consists of duplicate values
+date_report_ls = listing_site['Date of Report'].unique()
 
 # Statistical Analysis
-print('')
-print('Stats for Google_Ads')
 google_ads_stats = google_ads.describe()
-print('Stats for Listing Site')
 listing_site_stats = listing_site.describe()
 # -----------------------------------------------------------------------------
 
@@ -54,8 +55,12 @@ search_keyword_null = google_ads.loc[google_ads['Ad group'] == 'Pool_Reservation
 clean_google_ads = pd.read_csv('google_ads.csv')
 clean_google_ads.drop(clean_google_ads.index[clean_google_ads['Ad group'] == 'Pool_Reservation_Software_Open_Broad'], inplace=True)
 clean_google_ads.drop(['Currency', 'Country', 'Ad group'], axis = 1, inplace = True)
+clean_google_ads['Payment ($)'] = clean_google_ads['Payment ($)'].replace(np.nan, '0')
+clean_google_ads['Payment Date'] = clean_google_ads['Payment Date'].replace(np.nan, '0')
 # clean column ['Search Keyword']
 clean_search_keyword_gs = clean_google_ads['Search Keyword'].unique()
+# deleting columns with no data
+
 
 # statistical analysis
 clean_google_ads_stats = clean_google_ads.describe()
@@ -86,5 +91,8 @@ clean_location_ls = clean_listing_site['Location'].unique()
 clean_listing_site_stats = clean_listing_site.describe()
 # dataframe to csv
 clean_listing_site.to_csv('clean_listing_site.csv')
+# -----------------------------------------------------------------------------
+
+# DATA PROCESSING
 # -----------------------------------------------------------------------------
 
