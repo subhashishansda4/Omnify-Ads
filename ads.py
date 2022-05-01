@@ -4,11 +4,14 @@ Created on Sat Apr 30 03:16:31 2022
 
 @author: Subhashis Hansda
 """
-
+# importing libraries
 import pandas as pd
 import numpy as np
 
+
+
 # DATA EXPLORATION
+
 # -----------------------------------------------------------------------------
 # GOOGLE ADS
 # checking columns
@@ -49,6 +52,7 @@ listing_site_stats = listing_site.describe()
 
 
 # DATA CLEANING
+
 # -----------------------------------------------------------------------------
 # GOOGLE ADS
 # -----------------------------------------------------------------------------
@@ -80,7 +84,8 @@ clean_google_ads['Payment'] = clean_google_ads['Payment ($)'].str.replace('$', '
 clean_google_ads.drop(['Payment ($)'], axis = 1, inplace = True)
 
 # adding ['Total'] column
-clean_google_ads.rename(columns = {'Cost ($)':'Cost', 'Keyword type':'Keyword Type'}, inplace = True)
+clean_google_ads.rename(columns = {'Cost ($)':'Cost', 'Keyword type':'Keyword_Type'}, inplace = True)
+clean_google_ads.rename(columns = {'Search Keyword':'Search_Keyword'}, inplace = True)
 clean_google_ads['Payment'] = clean_google_ads['Payment'].str.replace(',', '')
 
 print(clean_google_ads.Payment.dtype)
@@ -98,6 +103,7 @@ prospects_gs = clean_google_ads['Prospects'].unique()
 clean_google_ads_stats = clean_google_ads.describe()
 # dataframe to csv
 clean_google_ads.to_csv('clean_google_ads.csv', index = False)
+
 
 # -----------------------------------------------------------------------------
 # LISTING SITE
@@ -133,10 +139,11 @@ clean_listing_site['Paid'] = clean_listing_site['Paid'].str.replace('$', '')
 clean_listing_site['Paid'] = clean_listing_site['Paid'].str.replace(',', '')
 
 # adding ['Total'] column
-clean_listing_site.rename(columns = {'Money Spent ($)':'Money Spent'}, inplace = True)
+clean_listing_site.rename(columns = {'Money Spent ($)':'Money_Spent'}, inplace = True)
+clean_listing_site.rename(columns = {'Average Position':'Average_Position'}, inplace = True)
 clean_listing_site['Paid'] = pd.to_numeric(clean_listing_site['Paid'])
-clean_listing_site['Money Spent'] = clean_listing_site['Money Spent'].astype(float)
-clean_listing_site['Total'] = clean_listing_site['Paid'] - clean_listing_site['Money Spent']
+clean_listing_site['Money_Spent'] = clean_listing_site['Money_Spent'].astype(float)
+clean_listing_site['Total'] = clean_listing_site['Paid'] - clean_listing_site['Money_Spent']
 
 # splitting ['Date of Report'] column into day, month and year
 ls_1_date = clean_listing_site.loc[0:1692]
@@ -161,8 +168,16 @@ clean_listing_site = pd.concat([ls_1_date, ls_2_date, ls_3_date, ls_4_date])
 # removing ['Date of Report'], ['Leads'] and ['Paid Date']
 clean_listing_site.drop(['Date of Report', 'Leads', 'Paid Date'], axis = 1, inplace = True)
 
+clean_listing_site['Prospects'] = pd.to_numeric(clean_listing_site['Prospects'])
+clean_listing_site['Clicks'] = pd.to_numeric(clean_listing_site['Clicks'])
+clean_listing_site['Average_Position'] = pd.to_numeric(clean_listing_site['Average_Position'])
+
 # statistical analysis
 clean_listing_site_stats = clean_listing_site.describe()
 # dataframe to csv
 clean_listing_site.to_csv('clean_listing_site.csv', index = False)
 # -----------------------------------------------------------------------------
+
+# Statistical Analysis
+z1 = clean_google_ads.describe()
+z2 = clean_listing_site.describe()
