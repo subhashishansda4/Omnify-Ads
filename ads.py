@@ -8,7 +8,7 @@ Created on Sat Apr 30 03:16:31 2022
 import pandas as pd
 import numpy as np
 
-# DATA ANALYSIS
+# DATA EXPLORATION
 # -----------------------------------------------------------------------------
 # GOOGLE ADS
 # checking columns
@@ -97,7 +97,7 @@ prospects_gs = clean_google_ads['Prospects'].unique()
 # statistical analysis
 clean_google_ads_stats = clean_google_ads.describe()
 # dataframe to csv
-clean_google_ads.to_csv('clean_google_ads.csv')
+clean_google_ads.to_csv('clean_google_ads.csv', index = False)
 
 # -----------------------------------------------------------------------------
 # LISTING SITE
@@ -164,5 +164,5 @@ clean_listing_site.drop(['Date of Report', 'Leads', 'Paid Date'], axis = 1, inpl
 # statistical analysis
 clean_listing_site_stats = clean_listing_site.describe()
 # dataframe to csv
-clean_listing_site.to_csv('clean_listing_site.csv')
+clean_listing_site.to_csv('clean_listing_site.csv', index = False)
 # -----------------------------------------------------------------------------
